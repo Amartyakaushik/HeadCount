@@ -1,5 +1,6 @@
 import { create } from "zustand"
 import { persist } from "zustand/middleware"
+import { useProfileStore } from "./profile"
 
 interface User {
   id: string
@@ -53,6 +54,23 @@ const MOCK_USERS = [
   },
 ]
 
+// Helper function to update profile
+const updateUserProfile = (name: string, email: string, role: string) => {
+  // Split name into first and last name
+  const nameParts = name.split(" ")
+  const firstName = nameParts[0] || ""
+  const lastName = nameParts.slice(1).join(" ") || ""
+
+  // Get the profile store and update it
+  const profileStore = useProfileStore.getState()
+  profileStore.updateProfile({
+    firstName,
+    lastName,
+    email,
+    role,
+  })
+}
+
 export const useAuthStore = create<AuthState>()(
   persist(
     (set, get) => ({
@@ -74,6 +92,10 @@ export const useAuthStore = create<AuthState>()(
             },
             isAuthenticated: true,
           })
+
+          // Update profile with user info
+          updateUserProfile(mockUser.name, mockUser.email, mockUser.role)
+
           return { success: true, message: "Login successful" }
         }
 
@@ -90,6 +112,10 @@ export const useAuthStore = create<AuthState>()(
             },
             isAuthenticated: true,
           })
+
+          // Update profile with user info
+          updateUserProfile(registeredUser.name, registeredUser.email, registeredUser.role)
+
           return { success: true, message: "Login successful" }
         }
 
@@ -129,6 +155,9 @@ export const useAuthStore = create<AuthState>()(
           },
           isAuthenticated: true,
         }))
+
+        // Update profile with user info
+        updateUserProfile(name, email, role)
 
         console.log("User registered:", newUser)
         console.log("Updated registered users:", [...get().registeredUsers])

@@ -28,7 +28,7 @@ export default function Header({ onMenuClick }: HeaderProps) {
   const { toast } = useToast()
   const { notifications, markAsRead, unreadCount } = useNotificationStore()
   const { profile } = useProfileStore()
-  const { logout } = useAuthStore()
+  const { logout, user } = useAuthStore()
 
   const handleLogout = () => {
     logout()
@@ -41,6 +41,14 @@ export default function Header({ onMenuClick }: HeaderProps) {
 
   const handleNotificationClick = (notificationId: number) => {
     markAsRead(notificationId)
+  }
+
+  // Get initials for avatar
+  const getInitials = () => {
+    if (profile.firstName && profile.lastName) {
+      return `${profile.firstName[0]}${profile.lastName[0]}`.toUpperCase()
+    }
+    return user?.name?.substring(0, 2).toUpperCase() || "U"
   }
 
   return (
@@ -118,17 +126,16 @@ export default function Header({ onMenuClick }: HeaderProps) {
             <Button variant="outline" size="icon" className="rounded-full">
               <Avatar className="h-8 w-8">
                 <AvatarImage src={profile.avatar || "/placeholder.svg"} alt="User" />
-                <AvatarFallback>
-                  {profile.firstName && profile.lastName ? (
-                    `${profile.firstName[0]}${profile.lastName[0]}`
-                  ) : (
-                    <User className="h-4 w-4" />
-                  )}
-                </AvatarFallback>
+                <AvatarFallback>{getInitials()}</AvatarFallback>
               </Avatar>
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
+            <div className="px-2 py-1.5 text-sm font-medium">
+              {profile.firstName} {profile.lastName}
+              <p className="text-xs text-muted-foreground">{profile.email}</p>
+            </div>
+            <DropdownMenuSeparator />
             <DropdownMenuItem asChild>
               <Link href="/profile">
                 <User className="mr-2 h-4 w-4" />
