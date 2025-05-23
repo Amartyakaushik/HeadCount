@@ -17,6 +17,7 @@ import { useToast } from "@/components/ui/use-toast"
 import { useNotificationStore } from "@/store/notifications"
 import { useProfileStore } from "@/store/profile"
 import Link from "next/link"
+import { useAuthStore } from "@/store/auth"
 
 interface HeaderProps {
   onMenuClick: () => void
@@ -27,13 +28,15 @@ export default function Header({ onMenuClick }: HeaderProps) {
   const { toast } = useToast()
   const { notifications, markAsRead, unreadCount } = useNotificationStore()
   const { profile } = useProfileStore()
+  const { logout } = useAuthStore()
 
   const handleLogout = () => {
+    logout()
     toast({
       title: "Logged out",
       description: "You have been successfully logged out",
     })
-    // In a real app, this would clear auth tokens and redirect
+    // The AuthGuard will automatically redirect to login
   }
 
   const handleNotificationClick = (notificationId: number) => {

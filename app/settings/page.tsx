@@ -11,11 +11,11 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Separator } from "@/components/ui/separator"
 import { useToast } from "@/components/ui/use-toast"
 import { useTheme } from "next-themes"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Badge } from "@/components/ui/badge"
 import { useProfileStore } from "@/store/profile"
 import { useNotificationStore } from "@/store/notifications"
 import { User, Bell, Shield, Palette, Database, Mail } from "lucide-react"
+import AvatarUpload from "@/components/ui/avatar-upload"
 
 export default function SettingsPage() {
   const { theme, setTheme } = useTheme()
@@ -144,21 +144,12 @@ export default function SettingsPage() {
               <CardDescription>Update your personal information and profile details</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
-              <div className="flex items-center space-x-4">
-                <Avatar className="h-20 w-20">
-                  <AvatarImage src={profile.avatar || "/placeholder.svg"} alt="Profile" />
-                  <AvatarFallback className="text-xl">
-                    {profile.firstName[0]}
-                    {profile.lastName[0]}
-                  </AvatarFallback>
-                </Avatar>
-                <div>
-                  <Button variant="outline" onClick={handleAvatarChange}>
-                    Change Avatar
-                  </Button>
-                  <p className="text-sm text-muted-foreground mt-1">JPG, PNG or GIF. Max size 2MB.</p>
-                </div>
-              </div>
+              <AvatarUpload
+                currentAvatar={profile.avatar || "/placeholder.svg"}
+                onAvatarChange={updateAvatar}
+                fallbackText={`${profile.firstName[0]}${profile.lastName[0]}`}
+                size="lg"
+              />
 
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
