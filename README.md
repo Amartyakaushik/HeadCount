@@ -178,24 +178,36 @@ To enable debug logging for authentication:
 
 ## 📸 Screenshots
 
+### Authentication overview
+![Login](https://github.com/user-attachments/assets/2ccc773e-94a1-4127-80c5-0ab9f48e79e2)
+![Register](https://github.com/user-attachments/assets/8cc0fd27-b2e4-411d-9d3d-c93c74345206)
+
 ### Dashboard Overview
-![Dashboard](https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=500&fit=crop)
+![Dashboard](https://github.com/user-attachments/assets/77642cd0-3aec-4484-89c3-aeaeb3acc726)
 *Main dashboard showing employee grid with search and filter capabilities*
 
 ### Employee Profile
-![Employee Profile](https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&h=500&fit=crop)
+![Employee Profile](https://github.com/user-attachments/assets/c698de79-004d-4e78-8509-75db96193699)
 *Detailed employee profile with performance history and project information*
 
 ### Analytics Dashboard
-![Analytics](https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=500&fit=crop)
+![Analytics](https://github.com/user-attachments/assets/d350c537-f0a8-4026-80d4-6db7e5cf0f6a)
 *Performance analytics with charts and insights*
 
 ### Bookmarks Management
-![Bookmarks](https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800&h=500&fit=crop)
+![Bookmarks](https://github.com/user-attachments/assets/3f3aa197-0485-47e7-8b3f-9cae93146651)
+*Bookmark system for managing favorite employees*
+
+### Settings
+![Settings](https://github.com/user-attachments/assets/5ccf7430-5dd9-4b8a-82c6-c2e02f219f2a)
+*Bookmark system for managing favorite employees*
+
+### Profile
+![Profile](https://github.com/user-attachments/assets/59388655-59aa-4c52-a753-5a77b7e2ffdf)
 *Bookmark system for managing favorite employees*
 
 ### Mobile Responsive
-![Mobile View](https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=400&h=600&fit=crop)
+![Mobile View](https://github.com/user-attachments/assets/3248d175-e78f-4948-bfa9-c8d70fd8c7e4)
 *Fully responsive design works perfectly on mobile devices*
 
 ## 🛠️ Technology Stack
