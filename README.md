@@ -2,6 +2,8 @@
 
 A modern, responsive HR management dashboard built with Next.js, TypeScript, and Tailwind CSS. This application provides comprehensive employee management, performance tracking, and analytics capabilities.
 
+👉 **Live Demo**: [https://head-count-blush.vercel.app/login](https://head-count-blush.vercel.app/login)
+
 ![HR Dashboard Preview](https://images.unsplash.com/photo-1551434678-e076c223a692?w=1200&h=600&fit=crop&crop=center)
 
 ## ✨ Features Implemented
