@@ -32,9 +32,9 @@ export default function RegisterPage() {
   // Redirect to dashboard if already authenticated
   useEffect(() => {
     if (isAuthenticated) {
-      router.push("/")
+      window.location.href = "/"
     }
-  }, [isAuthenticated, router])
+  }, [isAuthenticated])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -68,7 +68,7 @@ export default function RegisterPage() {
           title: "Account created successfully",
           description: "Welcome to HR Dashboard!",
         })
-        router.push("/")
+        // The register function will handle the redirect
       } else {
         setError(result.message)
         toast({
