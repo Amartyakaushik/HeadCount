@@ -43,18 +43,20 @@ export default function EmployeeCard({ employee }: EmployeeCardProps) {
   }
 
   return (
-    <Card className="overflow-hidden">
+    <Card className="overflow-hidden hover:shadow-lg transition-shadow">
       <CardContent className="p-4">
-        <div className="flex items-start justify-between">
-          <div>
-            <h3 className="font-medium text-lg">{`${employee.firstName} ${employee.lastName}`}</h3>
-            <p className="text-sm text-muted-foreground">{employee.email}</p>
+        <div className="flex items-start justify-between mb-4">
+          <div className="flex-1">
+            <h3 className="font-medium text-lg leading-tight">{`${employee.firstName} ${employee.lastName}`}</h3>
+            <p className="text-sm text-muted-foreground mt-1">{employee.email}</p>
             <div className="flex items-center gap-2 mt-2">
               <span className="text-sm">Age: {employee.age}</span>
-              <Badge variant="outline">{employee.department}</Badge>
+              <Badge variant="outline" className="text-xs">
+                {employee.department}
+              </Badge>
             </div>
           </div>
-          <Avatar>
+          <Avatar className="ml-3">
             <AvatarImage
               src={employee.image || "/placeholder.svg"}
               alt={`${employee.firstName} ${employee.lastName}`}
@@ -63,7 +65,7 @@ export default function EmployeeCard({ employee }: EmployeeCardProps) {
           </Avatar>
         </div>
 
-        <div className="mt-4">
+        <div className="mb-4">
           <div className="flex items-center gap-1">
             <span className="text-sm font-medium mr-2">Performance:</span>
             <div className="flex">
@@ -77,22 +79,30 @@ export default function EmployeeCard({ employee }: EmployeeCardProps) {
                 />
               ))}
             </div>
+            <span className="text-sm text-muted-foreground ml-1">({employee.performanceRating}/5)</span>
           </div>
         </div>
       </CardContent>
 
-      <CardFooter className="flex justify-between p-4 pt-0 gap-2">
-        <Button variant="outline" size="sm" asChild>
-          <Link href={`/employee/${employee.id}`}>
-            <Eye className="h-4 w-4 mr-1" />
-            View
-          </Link>
-        </Button>
-        <Button variant={isBookmarked ? "secondary" : "outline"} size="sm" onClick={handleBookmarkToggle}>
-          <Bookmark className={cn("h-4 w-4 mr-1", isBookmarked && "fill-current")} />
-          {isBookmarked ? "Saved" : "Save"}
-        </Button>
-        <Button variant="default" size="sm" onClick={handlePromote}>
+      <CardFooter className="flex flex-col gap-2 p-4 pt-0">
+        <div className="flex w-full gap-2">
+          <Button variant="outline" size="sm" className="flex-1" asChild>
+            <Link href={`/employee/${employee.id}`}>
+              <Eye className="h-4 w-4 mr-1" />
+              View
+            </Link>
+          </Button>
+          <Button
+            variant={isBookmarked ? "secondary" : "outline"}
+            size="sm"
+            className="flex-1"
+            onClick={handleBookmarkToggle}
+          >
+            <Bookmark className={cn("h-4 w-4 mr-1", isBookmarked && "fill-current")} />
+            {isBookmarked ? "Saved" : "Save"}
+          </Button>
+        </div>
+        <Button variant="default" size="sm" className="w-full" onClick={handlePromote}>
           <TrendingUp className="h-4 w-4 mr-1" />
           Promote
         </Button>

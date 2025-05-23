@@ -11,6 +11,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { useToast } from "@/components/ui/use-toast"
 import { departments } from "@/lib/data"
 import { useEmployeeStore } from "@/store/employees"
+import { useNotificationStore } from "@/store/notifications"
 
 const formSchema = z.object({
   firstName: z.string().min(2, {
@@ -53,6 +54,7 @@ export default function CreateEmployeeForm({ onSuccess }: CreateEmployeeFormProp
   const [isSubmitting, setIsSubmitting] = useState(false)
   const { toast } = useToast()
   const { addEmployee } = useEmployeeStore()
+  const { addNotification } = useNotificationStore()
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -74,7 +76,7 @@ export default function CreateEmployeeForm({ onSuccess }: CreateEmployeeFormProp
       const newEmployee = {
         id: Date.now(),
         ...values,
-        image: `/placeholder.svg?height=100&width=100`,
+        image: `/placeholder.svg?height=100&width=100&text=${values.firstName[0]}${values.lastName[0]}`,
         gender: "male", // Default value
         address: {
           city: "New York",
@@ -85,6 +87,13 @@ export default function CreateEmployeeForm({ onSuccess }: CreateEmployeeFormProp
 
       // Add to store
       addEmployee(newEmployee)
+
+      // Add notification
+      addNotification({
+        title: "New Employee Added",
+        description: `${values.firstName} ${values.lastName} has been added to the system`,
+        type: "success",
+      })
 
       toast({
         title: "Employee created",
@@ -98,15 +107,6 @@ export default function CreateEmployeeForm({ onSuccess }: CreateEmployeeFormProp
       if (onSuccess) {
         onSuccess()
       }
-
-      // Close dialog by dispatching escape key
-      setTimeout(() => {
-        const event = new KeyboardEvent("keydown", {
-          key: "Escape",
-          bubbles: true,
-        })
-        document.dispatchEvent(event)
-      }, 100)
     } catch (error) {
       toast({
         title: "Error",

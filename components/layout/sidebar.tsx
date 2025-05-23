@@ -1,10 +1,10 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { Button } from "@/components/ui/button"
-import { LayoutDashboard, Users, BarChart3, Bookmark, Settings, HelpCircle, Menu, X } from "lucide-react"
+import { LayoutDashboard, Users, BarChart3, Bookmark, Settings, HelpCircle, X } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { ScrollArea } from "@/components/ui/scroll-area"
 
@@ -36,31 +36,36 @@ const sidebarLinks = [
   },
 ]
 
-export default function Sidebar() {
+interface SidebarProps {
+  isOpen: boolean
+  setIsOpen: (open: boolean) => void
+}
+
+export default function Sidebar({ isOpen, setIsOpen }: SidebarProps) {
   const pathname = usePathname()
-  const [isOpen, setIsOpen] = useState(false)
+
+  // Close sidebar on route change (mobile)
+  useEffect(() => {
+    setIsOpen(false)
+  }, [pathname, setIsOpen])
 
   return (
     <>
-      {/* Mobile menu button */}
-      <div className="md:hidden fixed top-4 left-4 z-50">
-        <Button variant="outline" size="icon" onClick={() => setIsOpen(true)} className="rounded-full">
-          <Menu className="h-5 w-5" />
-        </Button>
-      </div>
-
       {/* Mobile overlay */}
       <div
-        className={cn("fixed inset-0 z-40 bg-background/80 backdrop-blur-sm md:hidden", isOpen ? "block" : "hidden")}
+        className={cn(
+          "fixed inset-0 z-40 bg-background/80 backdrop-blur-sm md:hidden transition-opacity",
+          isOpen ? "opacity-100" : "opacity-0 pointer-events-none",
+        )}
         onClick={() => setIsOpen(false)}
       />
 
       {/* Sidebar */}
       <aside
         className={cn(
-          "fixed top-0 left-0 z-50 h-full w-64 border-r bg-background transition-transform duration-300",
+          "fixed top-0 left-0 z-50 h-full w-64 border-r bg-background transition-transform duration-300 ease-in-out",
           "md:relative md:translate-x-0 md:z-auto",
-          isOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0",
+          isOpen ? "translate-x-0" : "-translate-x-full",
         )}
       >
         <div className="flex h-16 items-center border-b px-4">

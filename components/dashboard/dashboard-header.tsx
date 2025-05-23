@@ -25,10 +25,15 @@ export default function DashboardHeader() {
   const searchParams = useSearchParams()
   const router = useRouter()
   const [searchQuery, setSearchQuery] = useState(searchParams.get("search") || "")
+  const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false)
 
   // Filter state
-  const [selectedDepartments, setSelectedDepartments] = useState<string[]>([])
-  const [selectedRatings, setSelectedRatings] = useState<number[]>([])
+  const [selectedDepartments, setSelectedDepartments] = useState<string[]>(
+    searchParams.get("departments")?.split(",") || [],
+  )
+  const [selectedRatings, setSelectedRatings] = useState<number[]>(
+    searchParams.get("ratings")?.split(",").map(Number) || [],
+  )
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault()
@@ -81,6 +86,10 @@ export default function DashboardHeader() {
 
   const toggleRating = (rating: number) => {
     setSelectedRatings((prev) => (prev.includes(rating) ? prev.filter((r) => r !== rating) : [...prev, rating]))
+  }
+
+  const handleEmployeeCreated = () => {
+    setIsCreateDialogOpen(false)
   }
 
   return (
@@ -150,7 +159,7 @@ export default function DashboardHeader() {
             </SheetContent>
           </Sheet>
 
-          <Dialog>
+          <Dialog open={isCreateDialogOpen} onOpenChange={setIsCreateDialogOpen}>
             <DialogTrigger asChild>
               <Button size="sm">
                 <UserPlus className="mr-2 h-4 w-4" />
@@ -162,7 +171,7 @@ export default function DashboardHeader() {
                 <DialogTitle>Add New Employee</DialogTitle>
                 <DialogDescription>Create a new employee profile in the system</DialogDescription>
               </DialogHeader>
-              <CreateEmployeeForm />
+              <CreateEmployeeForm onSuccess={handleEmployeeCreated} />
             </DialogContent>
           </Dialog>
         </div>

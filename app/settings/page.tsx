@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -13,11 +13,17 @@ import { useToast } from "@/components/ui/use-toast"
 import { useTheme } from "next-themes"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Badge } from "@/components/ui/badge"
+import { useProfileStore } from "@/store/profile"
+import { useNotificationStore } from "@/store/notifications"
 import { User, Bell, Shield, Palette, Database, Mail } from "lucide-react"
 
 export default function SettingsPage() {
   const { theme, setTheme } = useTheme()
   const { toast } = useToast()
+  const { profile, updateProfile, updateAvatar } = useProfileStore()
+  const { addNotification } = useNotificationStore()
+  const [mounted, setMounted] = useState(false)
+
   const [settings, setSettings] = useState({
     emailNotifications: true,
     pushNotifications: false,
@@ -29,15 +35,87 @@ export default function SettingsPage() {
     timezone: "UTC",
   })
 
+  const [profileForm, setProfileForm] = useState({
+    firstName: profile.firstName,
+    lastName: profile.lastName,
+    email: profile.email,
+    role: profile.role,
+  })
+
+  useEffect(() => {
+    setMounted(true)
+    setProfileForm({
+      firstName: profile.firstName,
+      lastName: profile.lastName,
+      email: profile.email,
+      role: profile.role,
+    })
+  }, [profile])
+
   const handleSave = () => {
     toast({
       title: "Settings saved",
       description: "Your settings have been updated successfully.",
     })
+
+    addNotification({
+      title: "Settings Updated",
+      description: "Your preferences have been saved successfully",
+      type: "success",
+    })
+  }
+
+  const handleProfileSave = () => {
+    updateProfile(profileForm)
+    toast({
+      title: "Profile updated",
+      description: "Your profile information has been updated successfully.",
+    })
+
+    addNotification({
+      title: "Profile Updated",
+      description: "Your profile information has been successfully updated",
+      type: "success",
+    })
+  }
+
+  const handleAvatarChange = () => {
+    // Simulate avatar change with a new placeholder
+    const newAvatar = `/placeholder.svg?height=100&width=100&text=${profileForm.firstName[0]}${profileForm.lastName[0]}`
+    updateAvatar(newAvatar)
+
+    toast({
+      title: "Avatar updated",
+      description: "Your profile picture has been updated.",
+    })
+
+    addNotification({
+      title: "Avatar Changed",
+      description: "Your profile picture has been updated",
+      type: "info",
+    })
   }
 
   const handleSettingChange = (key: string, value: boolean | string) => {
     setSettings((prev) => ({ ...prev, [key]: value }))
+  }
+
+  const handleThemeChange = (newTheme: string) => {
+    setTheme(newTheme)
+    toast({
+      title: "Theme updated",
+      description: `Theme changed to ${newTheme}`,
+    })
+
+    addNotification({
+      title: "Theme Changed",
+      description: `Your theme has been changed to ${newTheme}`,
+      type: "info",
+    })
+  }
+
+  if (!mounted) {
+    return null
   }
 
   return (
@@ -68,11 +146,16 @@ export default function SettingsPage() {
             <CardContent className="space-y-4">
               <div className="flex items-center space-x-4">
                 <Avatar className="h-20 w-20">
-                  <AvatarImage src="/placeholder.svg" alt="Profile" />
-                  <AvatarFallback>AD</AvatarFallback>
+                  <AvatarImage src={profile.avatar || "/placeholder.svg"} alt="Profile" />
+                  <AvatarFallback className="text-xl">
+                    {profile.firstName[0]}
+                    {profile.lastName[0]}
+                  </AvatarFallback>
                 </Avatar>
                 <div>
-                  <Button variant="outline">Change Avatar</Button>
+                  <Button variant="outline" onClick={handleAvatarChange}>
+                    Change Avatar
+                  </Button>
                   <p className="text-sm text-muted-foreground mt-1">JPG, PNG or GIF. Max size 2MB.</p>
                 </div>
               </div>
@@ -80,28 +163,45 @@ export default function SettingsPage() {
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <Label htmlFor="firstName">First Name</Label>
-                  <Input id="firstName" defaultValue="Admin" />
+                  <Input
+                    id="firstName"
+                    value={profileForm.firstName}
+                    onChange={(e) => setProfileForm({ ...profileForm, firstName: e.target.value })}
+                  />
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="lastName">Last Name</Label>
-                  <Input id="lastName" defaultValue="User" />
+                  <Input
+                    id="lastName"
+                    value={profileForm.lastName}
+                    onChange={(e) => setProfileForm({ ...profileForm, lastName: e.target.value })}
+                  />
                 </div>
               </div>
 
               <div className="space-y-2">
                 <Label htmlFor="email">Email</Label>
-                <Input id="email" type="email" defaultValue="admin@company.com" />
+                <Input
+                  id="email"
+                  type="email"
+                  value={profileForm.email}
+                  onChange={(e) => setProfileForm({ ...profileForm, email: e.target.value })}
+                />
               </div>
 
               <div className="space-y-2">
                 <Label htmlFor="role">Role</Label>
                 <div className="flex items-center space-x-2">
-                  <Input id="role" defaultValue="HR Manager" disabled />
+                  <Input
+                    id="role"
+                    value={profileForm.role}
+                    onChange={(e) => setProfileForm({ ...profileForm, role: e.target.value })}
+                  />
                   <Badge variant="outline">Admin</Badge>
                 </div>
               </div>
 
-              <Button onClick={handleSave}>Save Changes</Button>
+              <Button onClick={handleProfileSave}>Save Changes</Button>
             </CardContent>
           </Card>
         </TabsContent>
@@ -183,7 +283,7 @@ export default function SettingsPage() {
             <CardContent className="space-y-6">
               <div className="space-y-2">
                 <Label>Theme</Label>
-                <Select value={theme} onValueChange={setTheme}>
+                <Select value={theme} onValueChange={handleThemeChange}>
                   <SelectTrigger className="w-48">
                     <SelectValue placeholder="Select theme" />
                   </SelectTrigger>
