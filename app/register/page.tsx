@@ -12,6 +12,7 @@ import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { useToast } from "@/components/ui/use-toast"
 import { useAuthStore } from "@/store/auth"
+import { useProfileStore } from "@/store/profile"
 import { Users, Eye, EyeOff, AlertCircle, ArrowLeft } from "lucide-react"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 
@@ -26,6 +27,7 @@ export default function RegisterPage() {
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState("")
   const { register, isAuthenticated } = useAuthStore()
+  const { resetProfile } = useProfileStore()
   const { toast } = useToast()
   const router = useRouter()
 
@@ -64,6 +66,12 @@ export default function RegisterPage() {
       const result = await register(name, email, password, role)
 
       if (result.success) {
+        // Update profile with user data
+        if (result.userData) {
+          console.log("Updating profile with user data:", result.userData)
+          resetProfile(result.userData)
+        }
+
         toast({
           title: "Account created successfully",
           description: "Welcome to HR Dashboard!",
