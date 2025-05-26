@@ -99,6 +99,7 @@ Before you begin, ensure you have the following installed:
    
 
 3. **Start the Development Server**
+
    npm run dev
    # or
    yarn dev
