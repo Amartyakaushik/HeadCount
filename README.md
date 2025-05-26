@@ -78,32 +78,30 @@ Before you begin, ensure you have the following installed:
 ### Installation
 
 1. **Clone or Download the Project**
-   \`\`\`bash
+   
    # If using Git
    git clone <your-repository-url>
    cd hr-dashboard
    
    # Or download and extract the ZIP file from v0
-   \`\`\`
+  
 
 2. **Install Dependencies**
-   \`\`\`bash
+   
    npm install
    # or
    yarn install
-   \`\`\`
+  
 
    **Note**: If you encounter dependency conflicts, try:
-   \`\`\`bash
+  
    npm install --legacy-peer-deps
-   \`\`\`
+   
 
 3. **Start the Development Server**
-   \`\`\`bash
    npm run dev
    # or
    yarn dev
-   \`\`\`
 
 4. **Open Your Browser**
    Navigate to [http://localhost:3000](http://localhost:3000)
@@ -122,13 +120,11 @@ You can also create a new account using the registration page.
 
 ### Build for Production
 
-\`\`\`bash
 # Create production build
 npm run build
 
 # Start production server
 npm start
-\`\`\`
 
 ## 🔧 Troubleshooting
 
@@ -136,35 +132,26 @@ npm start
 
 **1. Authentication Redirect Loop**
 If you experience redirect loops between login and dashboard:
-\`\`\`bash
+
 # Clear browser data completely
 # Open Developer Tools (F12) → Application → Storage → Clear Site Data
 # Restart development server
 npm run dev
-\`\`\`
 
 **2. Port Already in Use**
-\`\`\`bash
-npm run dev -- -p 3001
-\`\`\`
-
+ npm run dev -- -p 3001
+ 
 **3. Dependency Issues**
-\`\`\`bash
-rm -rf node_modules package-lock.json
+ rm -rf node_modules package-lock.json
 npm install --legacy-peer-deps
-\`\`\`
-
+ 
 **4. TypeScript Errors**
-\`\`\`bash
-npm run type-check
-\`\`\`
-
+ npm run type-check
+ 
 **5. Build Failures**
-\`\`\`bash
-npm run clean  # if available
+ npm run clean  # if available
 npm run build
-\`\`\`
-
+ 
 **6. Authentication Not Persisting**
 - Clear browser localStorage and cookies
 - Disable browser extensions temporarily
@@ -209,9 +196,12 @@ To enable debug logging for authentication:
 *Bookmark system for managing favorite employees*
 
 ### Mobile Responsive
-![Mobile View](https://github.com/user-attachments/assets/3248d175-e78f-4948-bfa9-c8d70fd8c7e4)
-*Fully responsive design works perfectly on mobile devices*
 
+
+![Mobile View](https://github.com/user-attachments/assets/3248d175-e78f-4948-bfa9-c8d70fd8c7e4)
+<pre lang="markdown">
+*Fully responsive design works perfectly on mobile devices*
+</pre>
 ## 🛠️ Technology Stack
 
 - **Framework**: Next.js 14 (App Router)
@@ -227,7 +217,7 @@ To enable debug logging for authentication:
 
 ## 📁 Project Structure
 
-\`\`\`
+<pre lang="markdown">
 hr-dashboard/
 ├── app/                    # Next.js app directory
 │   ├── login/             # Authentication pages
@@ -264,23 +254,28 @@ hr-dashboard/
 │   └── employee.ts     # Employee types
 ├── middleware.ts       # Next.js middleware (disabled)
 └── public/            # Static assets
-\`\`\`
+</pre>
 
 ## 🔧 Available Scripts
 
-\`\`\`bash
 # Development
+
+<pre lang="markdown">
 npm run dev          # Start development server
 npm run build        # Build for production
 npm start           # Start production server
+</pre>
 
 # Code Quality
+
+<pre lang="markdown">
 npm run lint        # Run ESLint
 npm run type-check  # Run TypeScript compiler check
+</pre>
 
 # Utilities
 npm run clean       # Clean build artifacts (if available)
-\`\`\`
+
 
 ## 🌟 Key Features Explained
 
@@ -382,6 +377,6 @@ If you encounter any issues or have questions:
 
 ---
 
-**Built with ❤️ using Next.js and modern web technologies**
+**Built  using Next.js and modern web technologies**
 
 For more information, visit the [Next.js Documentation](https://nextjs.org/docs) or [shadcn/ui Documentation](https://ui.shadcn.com/).
